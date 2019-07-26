@@ -116,6 +116,7 @@ class WeatherDataModel {
     private struct Constants {
         static let key = "a2d4ea343a22e6e7aa605019259b4182"  // This API key should ideally be obtained from a backend server.
         static let endpoint = "https://api.openweathermap.org/data/2.5/weather?q="
+        static let units = "imperial" // This should be configurable based on users preferences.
     }
     
     init(city:String, country:String) {
@@ -136,7 +137,7 @@ class WeatherDataModel {
         }
         //api.openweathermap.org/data/2.5/weather?q=city,country&APPID=a2d4ea343a22e6e7aa605019259b4182
         var fullEndpoint = Constants.endpoint
-        fullEndpoint += encodedCity + "," + self.country + "&APPID=" + Constants.key
+        fullEndpoint += encodedCity + "," + self.country + "&APPID=" + Constants.key + "&units=" + Constants.units
        
         let session = URLSession.shared
     

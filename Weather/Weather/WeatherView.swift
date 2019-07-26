@@ -14,7 +14,7 @@ import UIKit
 class WeatherView : UIView {
     
     private struct Constants /* this can be renamed UserInterfaceStyles and moved out and reused throughout the app */ {
-        static let marginPadding:CGFloat = 16
+        static let marginPadding:CGFloat = 20
         static let cornerRadius:CGFloat = 5
         static let imageSize:CGFloat = 230
         static let fontName = "HelveticaNeue-Bold"
@@ -42,8 +42,8 @@ class WeatherView : UIView {
     
     func setupView() {
         setupViewAttributes()
-        setupImageView()
         setupLabels()
+        setupImageView()
     }
     
     
@@ -56,7 +56,7 @@ class WeatherView : UIView {
     
     private func setupImageView() {
         if let sv = superview {
-            iconView.topAnchor.constraint(equalTo: sv.safeAreaLayoutGuide.topAnchor).isActive = true
+            iconView.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: Constants.marginPadding).isActive = true
             let constraint = NSLayoutConstraint(item: iconView,
                                                 attribute: .leading,
                                                 relatedBy: .equal,
@@ -76,12 +76,30 @@ class WeatherView : UIView {
         self.addSubview(conditionsLabel)
         conditionsLabel.translatesAutoresizingMaskIntoConstraints = false
         conditionsLabel.numberOfLines = 0
-        conditionsLabel.text = NSLocalizedString("Two happy dogs standing on green\n grass presumably in a park.", comment: "description label")
-        conditionsLabel.font = UIFont(name: Constants.fontName, size: Constants.fontSize)
+        conditionsLabel.text = NSLocalizedString("Current Conditions: ", comment: "description label")
+        let myFont = UIFont(name: Constants.fontName, size: Constants.fontSize)
+        conditionsLabel.font = myFont
         conditionsLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor).isActive = true
         conditionsLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        
+        self.addSubview(self.locationLabel)
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.numberOfLines = 1
+        locationLabel.font = myFont
+        
+        self.addSubview(self.temperatureLabel)
+        temperatureLabel.numberOfLines = 1
+        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
+        temperatureLabel.font = myFont
+        temperatureLabel.text = NSLocalizedString("High Temperature: ", comment:"temperature label")
         if let sv = superview {
-            conditionsLabel.bottomAnchor.constraint(equalTo: sv.safeAreaLayoutGuide.bottomAnchor, constant: -(Constants.marginPadding + Constants.marginPadding)).isActive = true
+            conditionsLabel.bottomAnchor.constraint(equalTo: iconView.bottomAnchor, constant: (Constants.marginPadding + Constants.marginPadding)).isActive = true
+            locationLabel.topAnchor.constraint(equalTo: sv.safeAreaLayoutGuide.topAnchor, constant: Constants.marginPadding).isActive = true
+            locationLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor).isActive = true
+            locationLabel.heightAnchor.constraint(equalToConstant: Constants.marginPadding).isActive = true
+            temperatureLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor).isActive = true
+            temperatureLabel.heightAnchor.constraint(equalToConstant: Constants.marginPadding).isActive = true
+            temperatureLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: Constants.marginPadding).isActive = true
         }
         
         
